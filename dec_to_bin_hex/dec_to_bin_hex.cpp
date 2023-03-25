@@ -21,7 +21,7 @@ std::vector<bool> dec_to_binary(int dec) {
     std::cout << "================= Calculation... =================" << std::endl;
     for (size_t i{ 0 }; dec > 0; i++) {
         bin.push_back(dec % 2);
-        std::cout << std::setw(6) << dec << " / " << 2 << "\tr. " << dec%2 << std::endl;
+        std::cout << std::setw(8) << std::right << dec << " / " << 2 << std::setw(8) << std::right << "r. " << dec%2 << std::endl;
         dec = dec / 2;
     }
     std::cout << "==================================================" << std::endl;
@@ -56,53 +56,82 @@ char value_to_char(int dec) {
     case 5:
         temp = '5';
         break;
+    case 6:
+        temp = '6';
+        break;
+    case 7:
+        temp = '7';
+        break;
+    case 8:
+        temp = '8';
+        break;
+    case 9:
+        temp = '9';
+        break;
+    case 10:
+        temp = 'a';
+        break;
+    case 11:
+        temp = 'b';
+        break;
+    case 12:
+        temp = 'c';
+        break;
+    case 13:
+        temp = 'd';
+        break;
+    case 14:
+        temp = 'e';
+        break;
+    case 15:
+        temp = 'f';
+        break;
     }
+    return temp;
 }
 std::vector<char> dec_to_hex(int dec) {
     std::vector<bool> bin{ dec_to_binary(dec) };
     std::vector<char> hex;
-    int i{ 0 };
     int hex_val{ 0 };
-    for (const auto& b : bin) {
-        hex_val += pow(2, i);
-        i++;
-        if (!(i % 4)) {
-            hex.push_back(char(hex_val));
-            i = 0;
+    int j{ 0 };
+    for (size_t i{ 1 }; i <= bin.size(); ++i) { 
+        hex_val += (bin.at(i - 1) * pow(2, j));
+        j++;
+        if (!(i % 4) && i != 0) {
+            hex.push_back(value_to_char(hex_val));
+            hex_val = 0;
+            j = 0;
         }
-        else if (b == bin.at(bin.size() - 1)) {
-            hex.push_back(char(hex_val));
+        else if (i == bin.size()) {
+            hex.push_back(value_to_char(hex_val));
             return hex;
         }
     }
     return hex;
 }
 
-void display_hex(char* hex) {
-    std::cout << "hex : 0x";
-    for (size_t i{ strlen(hex) - 1 }; i >= 0 && i < ULONG_MAX; i--) {
-        std::cout << hex[i];
+std::string display_hex(std::vector<char> bin) {
+    std::string bin_str;
+    for (size_t i{ 1 }; i < bin.size() + 1; i++) {
+        bin_str += bin.at(bin.size() - i);
     }
-    std::cout << std::endl;
+    return bin_str;
 }
 
 int main()
 {
-    int num{ 0 };
-    std::cout << "Enter value: ";
-    std::cin >> num;
+    int num{ 1024 };
+    //std::cout << "Enter value: ";
+    //std::cin >> num;
     //dec to bin
-    //std::string bin_str;
-    //bin_str = display_bin(dec_to_binary(num));
-    //std::cout << num << " decimal to binary : 0b" << bin_str << std::endl;
+    std::string bin_str;
+    bin_str = display_bin(dec_to_binary(num));
+    std::cout << num << " decimal to binary : 0b" << bin_str << std::endl;
     //dec to hex
     std::string hex_str;
     std::vector <char> hex;
-    hex = dec_to_hex(num);
-    std::cout << hex.size() << std::endl;
-    for (const auto& h : hex) {
-        std::cout << h;
-    }
+    hex_str = display_hex(dec_to_hex(num));
+    std::cout << num << " decimal to hex : 0x" << hex_str << std::endl;
     //hex_str = display_hex(dec_to_hex(num));
     /*
     display_bin(bin);
