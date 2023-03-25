@@ -13,112 +13,66 @@ Write your code in this editor and press "Run" button to compile and execute it.
 #include <limits.h>
 #include <cmath>
 #include <cstring>
+#include <string>
 
 std::vector<bool> dec_to_binary(int dec) {
     int dec_o{ dec };
     std::vector<bool> bin;
-    for (int i{ 0 }; dec > 0; i++) {
+    std::cout << "================= Calculation... =================" << std::endl;
+    for (size_t i{ 0 }; dec > 0; i++) {
         bin.push_back(dec % 2);
-        //std::cout << std::setw(4) << dec << " / " << 2 << "\tr. " << dec%2 << std::endl;
+        std::cout << std::setw(6) << dec << " / " << 2 << "\tr. " << dec%2 << std::endl;
         dec = dec / 2;
     }
+    std::cout << "==================================================" << std::endl;
     return bin;
 }
-void display_bin(std::vector<bool> bin) {
-    std::cout << std::endl;
-    std::cout << "binary : 0b";
-    for (size_t i{ (bin.size()) - 1 }; i >= 0 && i < ULONG_MAX; i--) {
-        std::cout << bin.at(i);
+std::string display_bin(std::vector<bool> bin) {
+    std::string bin_str;
+    for (size_t i{ 1 }; i < bin.size() + 1; i++) {
+        bin_str += std::to_string(bin.at(bin.size() - i));
     }
-    std::cout << std::endl;
+    return bin_str;
 }
 
-char* dec_to_hex(int dec) {
+char value_to_char(int dec) {
+    char temp{};
+    switch (dec) {
+    case 0:
+        temp = '0';
+        break;
+    case 1:
+        temp = '1';
+        break;
+    case 2:
+        temp = '2';
+        break;
+    case 3:
+        temp = '3';
+        break;
+    case 4:
+        temp = '4';
+        break;
+    case 5:
+        temp = '5';
+        break;
+    }
+}
+std::vector<char> dec_to_hex(int dec) {
     std::vector<bool> bin{ dec_to_binary(dec) };
-    char* hex;
-    size_t size{ 0 };
-
-    if (bin.size() % 4 != 0) {
-        hex = new char[(bin.size() / 4) + 2];
-        hex[(bin.size() / 4) + 1] = '\0';
-        size = ((bin.size() / 4) + 1) * 4;
-    }
-    else {
-        hex = new char[(bin.size() / 4) + 1];
-        hex[(bin.size() / 4)] = '\0';
-        size = (bin.size() / 4) * 4;
-    }
-
-    int temp{ 0 };
-    int counter{ 0 };
-    int k{ 0 };
-    for (long unsigned int i{ 0 }; i < size; i++) {
-        if (i > bin.size() - 1) {
-            bin.push_back(0);
+    std::vector<char> hex;
+    int i{ 0 };
+    int hex_val{ 0 };
+    for (const auto& b : bin) {
+        hex_val += pow(2, i);
+        i++;
+        if (!(i % 4)) {
+            hex.push_back(char(hex_val));
+            i = 0;
         }
-    }
-
-    for (long unsigned int i{ 0 }; i <= size; ++i) {
-        if (i % 4 == 0 && i != 0) {
-            switch (temp) {
-            case 0:
-                hex[counter] = '0';
-                break;
-            case 1:
-                hex[counter] = '1';
-                break;
-            case 2:
-                hex[counter] = '2';
-                break;
-            case 3:
-                hex[counter] = '3';
-                break;
-            case 4:
-                hex[counter] = '4';
-                break;
-            case 5:
-                hex[counter] = '5';
-                break;
-            case 6:
-                hex[counter] = '6';
-                break;
-            case 7:
-                hex[counter] = '7';
-                break;
-            case 8:
-                hex[counter] = '8';
-                break;
-            case 9:
-                hex[counter] = '9';
-                break;
-            case 10:
-                hex[counter] = 'A';
-                break;
-            case 11:
-                hex[counter] = 'B';
-                break;
-            case 12:
-                hex[counter] = 'C';
-                break;
-            case 13:
-                hex[counter] = 'D';
-                break;
-            case 14:
-                hex[counter] = 'E';
-                break;
-            case 15:
-                hex[counter] = 'F';
-                break;
-            default:
-                break;
-            }
-            counter++;
-            temp = 0;
-            k = 0;
-        }
-        if (i < bin.size()) {
-            temp = temp + (int)(bin.at(i) * pow(2.0, k));
-            k++;
+        else if (b == bin.at(bin.size() - 1)) {
+            hex.push_back(char(hex_val));
+            return hex;
         }
     }
     return hex;
@@ -137,13 +91,24 @@ int main()
     int num{ 0 };
     std::cout << "Enter value: ";
     std::cin >> num;
-    char* hex;
-    std::vector<bool> bin;
-    bin = dec_to_binary(num);
+    //dec to bin
+    //std::string bin_str;
+    //bin_str = display_bin(dec_to_binary(num));
+    //std::cout << num << " decimal to binary : 0b" << bin_str << std::endl;
+    //dec to hex
+    std::string hex_str;
+    std::vector <char> hex;
+    hex = dec_to_hex(num);
+    std::cout << hex.size() << std::endl;
+    for (const auto& h : hex) {
+        std::cout << h;
+    }
+    //hex_str = display_hex(dec_to_hex(num));
+    /*
     display_bin(bin);
     hex = dec_to_hex(num);
     display_hex(hex);
-
+    */
     return 0;
 }
 
