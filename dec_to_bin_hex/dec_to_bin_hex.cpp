@@ -95,7 +95,7 @@ std::vector<char> dec_to_hex(int dec) {
     int hex_val{ 0 };
     int j{ 0 };
     for (size_t i{ 1 }; i <= bin.size(); ++i) { 
-        hex_val += (bin.at(i - 1) * pow(2, j));
+        hex_val += (int)(bin.at(i - 1) * pow(2, j));
         j++;
         if (!(i % 4) && i != 0) {
             hex.push_back(value_to_char(hex_val));
@@ -120,9 +120,9 @@ std::string display_hex(std::vector<char> bin) {
 
 int main()
 {
-    int num{ 1024 };
-    //std::cout << "Enter value: ";
-    //std::cin >> num;
+    int num{ };
+    std::cout << "Enter value: ";
+    std::cin >> num;
     //dec to bin
     std::string bin_str;
     bin_str = display_bin(dec_to_binary(num));
