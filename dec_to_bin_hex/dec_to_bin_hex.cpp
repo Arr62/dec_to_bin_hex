@@ -80,7 +80,7 @@ char value_to_char(int dec) {
 
 std::string dec_to_hex(int dec) {
     std::string bin{ dec_to_binary(dec)};
-    //std::reverse(bin.begin(), bin.end());
+    std::reverse(bin.begin(), bin.end());
     std::string hex{};
     uint8_t hex_val{ 0 };
     int j{ 0 };
@@ -92,8 +92,9 @@ std::string dec_to_hex(int dec) {
             hex_val = 0;
             j = 0;
         }
-        else if (i == bin.size()) {
+        else if (i >= bin.size()) {
             hex += value_to_char(hex_val);
+            std::reverse(hex.begin(), hex.end());
             return hex;
         }
     }
