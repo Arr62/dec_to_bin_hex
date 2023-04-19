@@ -118,13 +118,12 @@ int main()
     //dec to bin
     std::string bin_str;
     bin_str = display_bin(dec_to_binary(num));
-    std::cout << num << " decimal to binary : 0b" << bin_str << std::endl;
+    std::cout << num << " decimal to binary: 0b" << bin_str << std::endl;
     //dec to hex
     std::string hex_str;
     std::vector <char> hex;
     hex_str = display_hex(dec_to_hex(num));
-    std::cout << num << " decimal to hex : 0x" << hex_str << std::endl;
-    //hex_str = display_hex(dec_to_hex(num));
+    std::cout << num << " decimal to hex: 0x" << hex_str << std::endl;
     /*
     display_bin(bin);
     hex = dec_to_hex(num);
